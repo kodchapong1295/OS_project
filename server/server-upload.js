@@ -91,7 +91,35 @@ app.post('/upload', upload.single('avatar'), (req, res) => {
         if (err) throw err;
         console.log(data);
         res.set('Content-Type', 'text/html');
-        res.send(Buffer.from(data.replace("/n","<br>")));
+let text =data;
+
+text = text.split('\n');
+text = text.map(el => {
+    return { word: el.split('\t')[0], count: el.split('\t')[1] };
+});
+text = text.slice(0,text.length-1);
+let html = text.map(el => {
+    return `<tr><td style=border: 1px solid #ddd;
+    padding: 8px;>${el.word}</td><td>${el.count}</td></tr>`;
+})
+let ans = "";
+html.forEach(el=>{
+    ans+=el;
+});
+html = `<table style="font-family: Arial, Helvetica, sans-serif;
+border-collapse: collapse;
+width: 100%;"><tr><th style="border: 1px solid #ddd;
+padding: 8px; padding-top: 12px;
+padding-bottom: 12px;
+text-align: left;
+background-color: #4CAF50;
+color: white;">Items</th><th style="border: 1px solid #ddd;
+padding: 8px; padding-top: 12px;
+padding-bottom: 12px;
+text-align: left;
+background-color: #4CAF50;
+color: white;">Amount</th></tr>`+ans+`</table>`;
+	res.send(Buffer.from(html));
     });
     console.log(fileName);
     //	return res.json({status: 'OK'});    

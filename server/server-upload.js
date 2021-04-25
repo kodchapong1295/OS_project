@@ -30,6 +30,13 @@ app.post('/upload', upload.single('avatar'), (req, res) => {
         console.log(stdout);
         console.log('stderr', stderr);
     });
+    exec(`rm ~/Desktop/OS_Project/server/uploads/${fileName}`, (e, stdout, stderr)=>{
+        if(e instanceof Error){
+            console.error(e);
+        }
+        console.log(stdout);
+        console.log('stderr', stderr);
+    });
     console.log(fileName);
     return res.json({ status: 'OK' });
 });

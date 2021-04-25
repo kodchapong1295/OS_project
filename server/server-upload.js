@@ -36,8 +36,30 @@ app.post('/upload', upload.single('avatar'), (req, res) => {
         console.log(stdout);
         console.log('stderr', stderr);
     });
-    console.log(fileName);
-    return res.json({ status: 'OK' });
+    execSync(`cd ~ && hadoop fs -put ~/inputs/${fileName} /input`, (e, stdout, stderr)=>{
+        if(e instanceof Error){
+            console.error(e);
+        }
+        console.log(stdout);
+        console.log('stderr', stderr);
+    });
+    execSync(`hadoop jar WordCount.jar WordCount /input /output`, (e, stdout, stderr)=>{
+        if(e instanceof Error){
+            console.error(e);
+        }
+        console.log(stdout);
+        console.log('stderr', stderr);
+    });
+    execSync(`hadoop fs -cat /output/part-r-00000`, (e, stdout, stderr)=>{
+        if(e instanceof Error){
+            console.error(e);
+        }
+        console.log(stdout);
+        return res.json({ status: 'OK', message: stdout });
+        console.log('stderr', stderr);
+    });
+    // console.log(fileName);
+    
 });
 
 

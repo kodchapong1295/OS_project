@@ -103,7 +103,7 @@ execSync(`~/hadoop/hadoop-3.1.4/bin/hadoop fs -rm -R /output`, (e, stdout, stder
 fs.readFile('/home/hadoop/temp', 'utf8', function(err, data) {
     if (err) throw err;
     console.log(data);
-    return res.json({msg:data})
+    return res.html(data);
 });
      console.log(fileName);
 //	return res.json({status: 'OK'});    

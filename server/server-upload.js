@@ -80,19 +80,6 @@ execSync(`~/hadoop/hadoop-3.1.4/bin/hadoop fs -rm -R /input`, (e, stdout, stderr
         console.log(stdout);
         console.log('stderr', stderr);
     });
-execSync(`cd ~ && ls -l > 1`, (e, stdout, stderr)=>{
-        console.log('Hey');
- if(e instanceof Error){
-            console.error(e);
-        }
-        if(stderr){
-        console.log(stderr);
-}
-        console.log('hello');
-        console.log(stdout);
-  //     return res.json({ status: 'OK', message: stdout });
-        console.log('stderr', stderr);
-    });
 execSync(`~/hadoop/hadoop-3.1.4/bin/hadoop fs -rm -R /output`, (e, stdout, stderr)=>{
         if(e instanceof Error){
             console.error(e);
@@ -103,7 +90,8 @@ execSync(`~/hadoop/hadoop-3.1.4/bin/hadoop fs -rm -R /output`, (e, stdout, stder
 fs.readFile('/home/hadoop/temp', 'utf8', function(err, data) {
     if (err) throw err;
     console.log(data);
-    return res.html(data);
+   res.set('Content-Type', 'text/html');
+res.send(Buffer.from(data));
 });
      console.log(fileName);
 //	return res.json({status: 'OK'});    

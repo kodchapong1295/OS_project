@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const exec = require('child_process').exec;
+const execSync = require('child_process').execSync;
 
 var fileName="";
 
@@ -22,14 +22,14 @@ app.use(express.static('public'));
 
 
 app.post('/upload', upload.single('avatar'), (req, res) => {
-    exec(`cp ~/Desktop/OS_Project/server/uploads/${fileName} ~/Desktop/test`, (e, stdout, stderr)=>{
+    execSync(`cp ${req.file.path} ~/inputs`, (e, stdout, stderr)=>{
         if(e instanceof Error){
             console.error(e);
         }
         console.log(stdout);
         console.log('stderr', stderr);
     });
-    exec(`rm ~/Desktop/OS_Project/server/uploads/${fileName}`, (e, stdout, stderr)=>{
+    execSync(`rm ${req.file.path}`, (e, stdout, stderr)=>{
         if(e instanceof Error){
             console.error(e);
         }
